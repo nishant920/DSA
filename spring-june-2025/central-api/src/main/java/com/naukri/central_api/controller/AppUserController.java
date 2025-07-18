@@ -1,5 +1,6 @@
 package com.naukri.central_api.controller;
 
+import com.naukri.central_api.dto.JobSearchFilterDto;
 import com.naukri.central_api.dto.JobSeekerRegistrationDto;
 import com.naukri.central_api.dto.JwtTokenResponseDto;
 import com.naukri.central_api.dto.LoginDto;
@@ -52,11 +53,10 @@ public class AppUserController {
 
     @GetMapping("/job/search")
     public ResponseEntity searchJob(
-            @RequestParam(required = false) String title,
-            @RequestParam(required = false) String company,
-            @RequestParam(required = false) String location
-    ){
+            @RequestBody JobSearchFilterDto jobSearchFilterDto
+            ){
         // callJobService
+
 
     }
 }

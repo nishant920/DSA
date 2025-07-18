@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
+import java.util.List;
 
 @Component
 public class DatabaseApiConnector extends RestAPI{
@@ -89,5 +90,9 @@ public class DatabaseApiConnector extends RestAPI{
         String endPoint = baseUrl + "/form/save";
         Object resp = this.makePostCall(endPoint, applicationForm, new HashMap<>());
         return modelMapper.map(resp, ApplicationForm.class);
+    }
+
+    public List<Job> callGetJobByQueryEndpoint(String query){
+
     }
 }

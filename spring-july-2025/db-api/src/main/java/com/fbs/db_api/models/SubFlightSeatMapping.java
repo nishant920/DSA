@@ -1,0 +1,20 @@
+package com.fbs.db_api.models;
+
+import jakarta.persistence.*;
+import lombok.Data;
+
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+@Data
+@Entity
+public class SubFlightSeatMapping extends SeatMapping {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    UUID id;
+    // id	flightId	classname	range	baseprice	windowprice
+    @ManyToOne
+    SubFlight flight;
+    LocalDateTime createdAt;
+    LocalDateTime updatedAt;
+}

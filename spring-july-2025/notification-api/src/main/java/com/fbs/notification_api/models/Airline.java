@@ -1,0 +1,24 @@
+package com.fbs.notification_api.models;
+
+import lombok.*;
+
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
+public class Airline {
+    UUID id;
+    String website;
+    String airlineName;
+    String companyName;
+    int employees;
+    int totalFlights;
+    AppUser admin;
+    String status;
+    LocalDateTime createdAt;
+    LocalDateTime updatedAt;
+}

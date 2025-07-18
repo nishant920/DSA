@@ -1,5 +1,6 @@
 package com.acciojob.hms.controllers;
 
+import com.acciojob.hms.models.Doctor;
 import com.acciojob.hms.models.Hospital;
 import com.acciojob.hms.models.Patient;
 import com.acciojob.hms.service.HospitalService;
@@ -48,4 +49,11 @@ public class HospitalController {
     public List<Hospital> getAllHospital(){
         return hospitalService.getAllHospital();
     }
+
+    @GetMapping("/doctors/{hospitalId}")
+    public List<Doctor> getAllDoctorByHospitalId(@PathVariable int hospitalId){
+        // HospitalService -> getAllDoctorByHos
+        return hospitalService.getAllDoctorByHospitalId(hospitalId);
+    }
+
 }

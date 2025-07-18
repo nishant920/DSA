@@ -1,5 +1,6 @@
 package com.acciojob.hms.service;
 
+import com.acciojob.hms.models.Doctor;
 import com.acciojob.hms.models.Hospital;
 import com.acciojob.hms.repositries.HospitalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,5 +43,28 @@ public class HospitalService {
             hospitals.add(hospital);
         }
         return hospitals;
+    }
+
+    /**
+     * Below function will return the hospital which is having minimum number of doctors.
+     */
+    public Hospital getHospitalHavingMinimumDoctor(){
+        List<Hospital> hospitals = this.getAllHospital();
+        Hospital ans = null;
+        int min = Integer.MAX_VALUE;
+        for(int i  = 0; i < hospitals.size(); i++){
+            Hospital hospital = hospitals.get(i);
+            if(hospital.getDoctors().size() < min){
+                min = hospital.getDoctors().size();
+                ans = hospital;
+            }
+        }
+        return ans;
+    }
+
+
+    public List<Doctor> getAllDoctorByHospitalId(int hospitalId){
+       Hospital hospital =  this.getHospitalById(hospitalId);
+       return hospital.getDoctors();
     }
 }
