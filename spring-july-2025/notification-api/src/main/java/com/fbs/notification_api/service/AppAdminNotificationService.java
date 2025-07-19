@@ -44,6 +44,7 @@ public class AppAdminNotificationService {
         context.setVariable("airlineAdminName", airlineRegistrationReqDto.getAirline().getAdmin().getName());
         context.setVariable("adminEmail", airlineRegistrationReqDto.getAirline().getAdmin().getEmail());
         context.setVariable("requestedTime", airlineRegistrationReqDto.getAirline().getCreatedAt().toString());
+        context.setVariable("acceptLink", "http://localhost:8081/api/v1/central/airline/request/accept/" + airlineRegistrationReqDto.getAirline().getId().toString());
         // We need to load the Html Template inside this function and populate value of all the variables
         // To load html template inside this function we will use library called Thymeleaf.
         // To load html template we require object of TemplateEngine class (Present Inside your Thymeleaf).

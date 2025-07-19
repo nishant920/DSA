@@ -29,4 +29,9 @@ public class UserService {
         return dbApiConnector.callGetAllUsersByUserType(UserType.SYSTEM_ADMIN.toString());
     }
 
+    public AppUser updateUserDetails(AppUser user){
+        // dbapi connector
+        return dbApiConnector.callUpdateUserEndpoint(user);
+    }
+
 }
