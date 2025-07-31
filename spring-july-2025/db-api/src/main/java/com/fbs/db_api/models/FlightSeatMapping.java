@@ -17,8 +17,13 @@ public class FlightSeatMapping extends SeatMapping {
     @GeneratedValue(strategy = GenerationType.AUTO)
     UUID id;
     // id	flightId	classname	range	baseprice	windowprice
-    @ManyToOne
-    Flight flight;
+    String className;
+    String range; // 1-20
+    int basePrice;
+    int windowPrice;
+    int totalWindow;
     LocalDateTime createdAt;
     LocalDateTime updatedAt;
+    @ManyToOne
+    Flight flight;
 }

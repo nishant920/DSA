@@ -15,6 +15,11 @@ public class SubFlightSeatMapping extends SeatMapping {
     // id	flightId	classname	range	baseprice	windowprice
     @ManyToOne
     SubFlight flight;
+    String className;
+    String range; // 1-20
+    int basePrice;
+    int windowPrice;
+    int totalWindow;
     LocalDateTime createdAt;
     LocalDateTime updatedAt;
 }

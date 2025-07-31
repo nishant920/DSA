@@ -1,6 +1,7 @@
 package com.instamart.shopping_delivery.service;
 
 import com.instamart.shopping_delivery.models.AppUser;
+import com.instamart.shopping_delivery.models.WareHouse;
 import jakarta.mail.internet.MimeMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,32 @@ public class MailService {
         this.templateEngine = templateEngine;
     }
 
+    public void sendDeliveryPartnerRegistrationMailToWareHouseAdmin(AppUser deliveryPartner,
+                                                                    String wareHouseAdminEmail) {
+        Context context = new Context();
+        context.setVariable("name", deliveryPartner.getName());
+        context.setVariable("email", deliveryPartner.getEmail());
+        context.setVariable("phoneNumber", deliveryPartner.getPhoneNumber());
+        context.setVariable("userType", deliveryPartner.getUserType());
+        context.setVariable("status", deliveryPartner.getStatus());
+        context.setVariable("acceptLink", "http://localhost:8080/api/v1/user/deliverypartner/registration/accept/" + deliveryPartner.getId().toString());
+
+        String htmlContent = templateEngine.process("delivery-partner-registration", context);
+
+        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+        MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
+        try{
+            mimeMessageHelper.setTo(wareHouseAdminEmail);
+            mimeMessageHelper.setSubject("Delivery Partner Registration");
+            mimeMessageHelper.setText(htmlContent, true);
+        }catch (Exception e){
+            log.error(e.getMessage());
+        }
+
+        javaMailSender.send(mimeMessage);
+
+
+    }
 
     public void sendWareHouseInvitationMail(AppUser wareHouseAdmin){
         String platformName = "Noida Evening Grocery App";
@@ -48,6 +75,28 @@ public class MailService {
             log.error(e.getMessage());
         }
 
+        javaMailSender.send(mimeMessage);
+    }
+
+    public void sendCreateWareHouseMail(WareHouse wareHouse, AppUser systemAdmin){
+        Context context = new Context();
+        context.setVariable("platformName", "AccioJob Grocery");
+        context.setVariable("address", wareHouse.getLocation().getAddress());
+        context.setVariable("city", wareHouse.getLocation().getCity());
+        context.setVariable("state", wareHouse.getLocation().getState());
+        context.setVariable("country", wareHouse.getLocation().getCountry());
+        context.setVariable("pinCode", wareHouse.getLocation().getPinCode());
+        context.setVariable("createdAt", wareHouse.getCreatedAt().toString());
+        String htmlContent = templateEngine.process("warehouse-created-email", context);
+        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+        MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
+        try{
+            mimeMessageHelper.setTo(systemAdmin.getEmail());
+            mimeMessageHelper.setText(htmlContent, true);
+            mimeMessageHelper.setSubject("New Warehouse created");
+        }catch (Exception e){
+            log.error(e.getMessage());
+        }
         javaMailSender.send(mimeMessage);
     }
 }

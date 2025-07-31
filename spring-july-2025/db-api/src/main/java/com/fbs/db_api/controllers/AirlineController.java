@@ -48,4 +48,10 @@ public class AirlineController {
         airlineRepository.save(airline);
         return new ResponseEntity(airline, HttpStatus.OK);
     }
+
+    @GetMapping("/get/admin/{adminId}")
+    public ResponseEntity getAirlineAdminId(@PathVariable UUID adminId){
+        Airline airline = airlineRepository.getAirlineByAdminId(adminId);
+        return new ResponseEntity(airline, HttpStatus.OK);
+    }
 }

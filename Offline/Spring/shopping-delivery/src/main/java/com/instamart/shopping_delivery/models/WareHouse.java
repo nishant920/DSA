@@ -19,6 +19,7 @@ public class WareHouse {
     @OneToOne
     AppUser manager;
     @OneToOne
+    @JoinColumn
     Location location;
     @OneToMany
     List<WareHouseItem> wareHouseItems;

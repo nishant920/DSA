@@ -3,6 +3,8 @@ package com.instamart.shopping_delivery.service;
 import com.instamart.shopping_delivery.exceptions.InvalidOperationException;
 import com.instamart.shopping_delivery.exceptions.UserNotExistException;
 import com.instamart.shopping_delivery.models.AppUser;
+import com.instamart.shopping_delivery.models.Location;
+import com.instamart.shopping_delivery.models.WareHouse;
 import com.instamart.shopping_delivery.repositories.AppUserRepository;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Properties;
 import java.util.UUID;
 
@@ -19,16 +22,21 @@ public class AppUserService {
 
    AppUserRepository appUserRepository;
    MailService mailService;
+   LocationService locationService;
 
    @Autowired
    public AppUserService(AppUserRepository appUserRepository,
-                         MailService mailService){
+                         MailService mailService,
+                         LocationService locationService){
        this.appUserRepository = appUserRepository;
        this.mailService = mailService;
+       this.locationService = locationService;
    }
 
-   public AppUser registerCustomer(AppUser customer){
-       return appUserRepository.save(customer);
+   public AppUser registerUser(AppUser user){
+       Location location = user.getLocations().get(0);
+       locationService.createLocation(location);
+       return appUserRepository.save(user);
    }
 
    public AppUser wareHouseAdminInvite(UUID userId, AppUser wareHouseAdmin){
@@ -53,5 +61,16 @@ public class AppUserService {
       appUserRepository.save(user);
    }
 
+   public AppUser isAppAdmin(UUID userId){
+      AppUser user = appUserRepository.findById(userId).orElse(null);
+      if(user.getUserType().equals("APP_ADMIN")){
+          return user;
+      }
+      return null;
+   }
+
+   public AppUser getUserById(UUID userId){
+       return appUserRepository.findById(userId).orElse(null);
+   }
 
 }
